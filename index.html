@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalepalli Devika — Backend Engineer</title>
+<meta name="description" content="Kalepalli Devika — Backend Engineer specializing in Java, Spring Boot, and distributed systems.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230C0F14'/%3E%3Ctext x='50' y='66' font-family='monospace' font-size='52' font-weight='700' fill='%23E3A648' text-anchor='middle'%3E%3E_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0C0F14;
+    --panel:#131720;
+    --panel-2:#171C27;
+    --line:#232838;
+    --text:#E7E9F0;
+    --muted:#7A8194;
+    --amber:#E3A648;
+    --azure:#6FA8FF;
+    --mint:#5FCF97;
+    --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+    --font-body:'IBM Plex Sans', -apple-system, sans-serif;
+    --container:880px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  img,svg{display:block;}
+
+  :focus-visible{outline:2px solid var(--azure); outline-offset:3px; border-radius:2px;}
+
+  .wrap{max-width:var(--container); margin-inline:auto; padding-inline:24px;}
+
+  /* ---------- background texture ---------- */
+  body{
+    background-image:
+      radial-gradient(circle at 12% 8%, rgba(111,168,255,0.07), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(227,166,72,0.06), transparent 40%);
+    background-attachment:fixed;
+  }
+
+  /* ---------- route badge (signature element) ---------- */
+  .route{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.02em;
+    padding:5px 10px; border:1px solid var(--line); border-radius:5px;
+    background:var(--panel); color:var(--muted);
+  }
+  .route .method{font-weight:600;}
+  .route .method.get{color:var(--azure);}
+  .route .method.post{color:var(--amber);}
+
+  .status-chip{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:var(--font-mono); font-size:0.75rem; color:var(--mint);
+    border:1px solid rgba(95,207,151,0.35); background:rgba(95,207,151,0.08);
+    padding:4px 10px; border-radius:999px;
+  }
+  .status-chip .dot{width:6px; height:6px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 3px rgba(95,207,151,0.18);}
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(12,15,20,0.82); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{display:flex; align-items:center; justify-content:space-between; height:64px; max-width:1040px;}
+  .logo{font-family:var(--font-mono); font-size:0.95rem; font-weight:600; color:var(--text); display:flex; align-items:center;}
+  .logo .cursor{display:inline-block; width:8px; height:1.1em; background:var(--amber); margin-left:3px; animation:blink 1.1s step-end infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  nav ul{display:flex; gap:4px;}
+  nav a{
+    font-family:var(--font-mono); font-size:0.82rem; color:var(--muted);
+    padding:8px 12px; position:relative;
+  }
+  nav a::after{
+    content:''; position:absolute; left:12px; right:12px; bottom:4px; height:1px;
+    background:var(--azure); transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+  }
+  nav a:hover{color:var(--text);}
+  nav a:hover::after{transform:scaleX(1);}
+
+  .nav-toggle{display:none; background:none; border:1px solid var(--line); border-radius:5px; width:38px; height:38px; color:var(--text); font-family:var(--font-mono);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:92vh; display:flex; flex-direction:column; justify-content:center;
+    padding-top:64px;
+  }
+  .hero .eyebrow-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:22px;}
+  .hero h1{
+    font-family:var(--font-body); font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 4.2rem); line-height:1.05; letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .hero .role-line{
+    font-family:var(--font-mono); color:var(--azure); font-size:clamp(0.95rem,2vw,1.15rem);
+    margin-bottom:18px;
+  }
+  .hero .role-line span{color:var(--muted);}
+  .hero .lead{max-width:56ch; color:var(--muted); font-size:1.05rem; margin-bottom:26px;}
+
+  .chip-row{display:flex; flex-wrap:wrap; gap:9px; margin-bottom:30px;}
+  .chip{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--azure);
+    border:1px solid rgba(111,168,255,0.3); background:rgba(111,168,255,0.06);
+    padding:5px 10px; border-radius:5px;
+  }
+
+  .btn-row{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:34px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:0.85rem; font-weight:500;
+    padding:11px 18px; border-radius:6px; transition:transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .btn-primary{background:var(--amber); color:var(--ink);}
+  .btn-primary:hover{transform:translateY(-2px); background:#EEB865;}
+  .btn-secondary{border:1px solid var(--line); color:var(--text);}
+  .btn-secondary:hover{transform:translateY(-2px); border-color:var(--azure);}
+  .btn svg{width:14px; height:14px;}
+
+  .hero .meta-line{font-family:var(--font-mono); font-size:0.8rem; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 14px;}
+  .hero .meta-line b{color:var(--text); font-weight:500;}
+
+  /* ---------- sections ---------- */
+  section{padding-block:76px; border-top:1px solid var(--line);}
+  section .head{display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:38px;}
+  section h2{font-family:var(--font-body); font-size:1.7rem; font-weight:700;}
+
+  [data-reveal]{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].is-visible{opacity:1; transform:none;}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid; grid-template-columns:1.5fr 1fr; gap:48px; align-items:start;}
+  .about p{color:var(--muted); margin-bottom:16px; max-width:62ch;}
+  .about p b{color:var(--text); font-weight:600;}
+  .stat-col{display:flex; flex-direction:column; gap:18px;}
+  .stat{border:1px solid var(--line); background:var(--panel); border-radius:8px; padding:16px 18px;}
+  .stat .n{font-family:var(--font-mono); font-size:1.6rem; font-weight:600; color:var(--amber);}
+  .stat .l{font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-top:3px;}
+
+  /* ---------- experience ---------- */
+  .role-card{border-left:2px solid var(--line); padding-left:24px; padding-bottom:36px; position:relative;}
+  .role-card:last-child{padding-bottom:0;}
+  .role-card::before{
+    content:''; position:absolute; left:-5px; top:4px; width:8px; height:8px; border-radius:50%;
+    background:var(--panel); border:2px solid var(--muted);
+  }
+  .role-card.active::before{background:var(--mint); border-color:var(--mint); box-shadow:0 0 0 4px rgba(95,207,151,0.16);}
+  .role-top{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; margin-bottom:6px;}
+  .role-top h3{font-size:1.08rem; font-weight:600;}
+  .role-top .company{font-family:var(--font-mono); font-size:0.82rem; color:var(--azure);}
+  .role-dates{font-family:var(--font-mono); font-size:0.78rem; color:var(--muted); white-space:nowrap; text-align:right;}
+  .role-card ul{margin-top:12px; display:flex; flex-direction:column; gap:8px;}
+  .role-card li{color:var(--muted); font-size:0.93rem; padding-left:18px; position:relative;}
+  .role-card li::before{content:'—'; position:absolute; left:0; color:var(--line);}
+  .role-tags{margin-top:14px; display:flex; flex-wrap:wrap; gap:7px;}
+  .tag{font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); border:1px solid var(--line); padding:3px 8px; border-radius:4px;}
+
+  /* ---------- projects ---------- */
+  .project-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .project-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:24px;
+    display:flex; flex-direction:column; transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .project-card:hover{border-color:var(--amber); transform:translateY(-3px); box-shadow:0 10px 30px -14px rgba(227,166,72,0.25);}
+  .project-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .project-top h3{font-size:1.05rem; font-weight:600;}
+  .project-date{font-family:var(--font-mono); font-size:0.72rem; color:var(--muted); margin-top:4px; margin-bottom:12px;}
+  .project-card p.desc{color:var(--muted); font-size:0.92rem; margin-bottom:16px; flex-grow:1;}
+  .project-tags{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px;}
+  .project-links{display:flex; gap:16px; border-top:1px solid var(--line); padding-top:14px;}
+  .project-links a{font-family:var(--font-mono); font-size:0.78rem; color:var(--azure); display:inline-flex; align-items:center; gap:5px;}
+  .project-links a:hover{color:var(--amber);}
+  .icon-link{color:var(--muted); flex-shrink:0;}
+  .icon-link:hover{color:var(--amber);}
+  .icon-link svg{width:15px; height:15px;}
+
+  /* ---------- skills ---------- */
+  .skill-groups{display:grid; grid-template-columns:1fr 1fr; gap:32px 40px;}
+  .skill-group .label{font-family:var(--font-mono); font-size:0.78rem; color:var(--amber); margin-bottom:12px; letter-spacing:0.03em;}
+  .skill-tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .skill-tags .chip{background:transparent;}
+
+  /* ---------- education ---------- */
+  .edu-row{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:18px 0; border-bottom:1px solid var(--line);}
+  .edu-row:last-of-type{border-bottom:none;}
+  .edu-row h3{font-size:1rem; font-weight:600; margin-bottom:3px;}
+  .edu-row .sub{font-family:var(--font-mono); font-size:0.8rem; color:var(--muted);}
+  .edu-row .right{font-family:var(--font-mono); font-size:0.8rem; color:var(--muted); text-align:right; white-space:nowrap;}
+  .cert-list{margin-top:28px; display:flex; flex-direction:column; gap:10px;}
+  .cert-list li{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:0.9rem; color:var(--muted);}
+  .cert-list li b{color:var(--text); font-weight:500;}
+  .cert-list li span{font-family:var(--font-mono); font-size:0.76rem; color:var(--muted);}
+
+  /* ---------- contact / footer ---------- */
+  .contact{text-align:center;}
+  .contact .prompt{font-family:var(--font-mono); color:var(--mint); font-size:1rem; margin-bottom:8px;}
+  .contact h2{margin-bottom:16px;}
+  .contact p{color:var(--muted); max-width:50ch; margin:0 auto 30px;}
+  .contact .btn-row{justify-content:center;}
+
+  footer{border-top:1px solid var(--line); padding:28px 0; text-align:center;}
+  footer p{font-family:var(--font-mono); font-size:0.75rem; color:var(--muted);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:760px){
+    nav ul{
+      position:fixed; top:64px; left:0; right:0; flex-direction:column; gap:0;
+      background:var(--ink); border-bottom:1px solid var(--line);
+      max-height:0; overflow:hidden; transition:max-height .25s ease;
+    }
+    nav ul.open{max-height:320px;}
+    nav a{padding:14px 24px; display:block;}
+    nav a::after{display:none;}
+    .nav-toggle{display:block;}
+    .about-grid{grid-template-columns:1fr;}
+    .project-grid{grid-template-columns:1fr;}
+    .skill-groups{grid-template-columns:1fr;}
+    section{padding-block:56px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="#top" class="logo">devika<span class="cursor"></span></a>
+    <nav>
+      <ul id="navLinks">
+        <li><a href="#about">/about</a></li>
+        <li><a href="#experience">/experience</a></li>
+        <li><a href="#projects">/projects</a></li>
+        <li><a href="#skills">/skills</a></li>
+        <li><a href="#education">/education</a></li>
+        <li><a href="#contact">/contact</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap" style="border-top:none;">
+    <div class="eyebrow-row">
+      <span class="route"><span class="method get">GET</span> /devika</span>
+      <span class="status-chip"><span class="dot"></span>200 OK</span>
+    </div>
+    <h1>Kalepalli Devika</h1>
+    <p class="role-line">backend engineer <span>— java · spring boot · microservices · postgresql</span></p>
+    <p class="lead">I design and ship backend systems that hold up under real load — and stay secure and testable while doing it. Currently building distributed services at Accenture.</p>
+
+    <div class="chip-row">
+      <span class="chip">Java</span>
+      <span class="chip">Spring Boot</span>
+      <span class="chip">Microservices</span>
+      <span class="chip">REST APIs</span>
+      <span class="chip">PostgreSQL</span>
+      <span class="chip">Docker</span>
+      <span class="chip">CI/CD</span>
+      <span class="chip">TDD</span>
+    </div>
+
+    <div class="btn-row">
+      <a class="btn btn-primary" href="https://github.com/kalepallidevika" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.9 5.33.9 11.6c0 5 3.24 9.23 7.75 10.73.57.1.78-.25.78-.55v-2.15c-3.15.68-3.82-1.43-3.82-1.43-.51-1.3-1.26-1.65-1.26-1.65-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.74 2.66 1.24 3.31.94.1-.73.4-1.24.72-1.53-2.51-.29-5.15-1.26-5.15-5.6 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.16.91-.26 1.89-.38 2.86-.39.97 0 1.95.13 2.86.39 2.18-1.47 3.14-1.16 3.14-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.04 0 4.35-2.65 5.31-5.17 5.59.41.35.77 1.04.77 2.11v3.13c0 .3.2.66.79.55A11.1 11.1 0 0 0 23.1 11.6C23.1 5.33 18.27.5 12 .5Z"/></svg>
+        View GitHub
+      </a>
+      <a class="btn btn-secondary" href="https://www.linkedin.com/in/kalepalli-devika" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+
+    <p class="meta-line">
+      <span><b>Location</b> — Bengaluru, Karnataka, India</span>
+      <span>·</span>
+      <span><b>Experience</b> — 3 yrs @ Accenture</span>
+      <span>·</span>
+      <span><b>Status</b> — open to SDE roles</span>
+    </p>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="route"><span class="method get">GET</span> /about</span>
+        <h2>About</h2>
+      </div>
+      <div class="about-grid" data-reveal>
+        <div class="about">
+          <p>I build backend systems that scale — and I make sure they stay secure and maintainable while doing it. At Accenture, I own backend features end-to-end: writing <b>Java/Spring Boot</b> code, taking it through the Security &amp; Engineering Review process (SAST, SCA, DAPI testing), and seeing it into production.</p>
+          <p>My team builds on <b>TDD</b>, so testing is part of how we ship, not an afterthought — JUnit and Mockito are woven into the development cycle from day one, not bolted on at the end.</p>
+          <p>Outside client work, I build things I'm curious about — an AI video-intelligence platform presented at Google's BNB Marathon 2025, and a published IEEE paper on ML-based intrusion detection for wireless sensor networks. B.Tech in Computer Science, Madanapalle Institute of Technology &amp; Science.</p>
+        </div>
+        <div class="stat-col">
+          <div class="stat"><div class="n">6</div><div class="l">microservices shipped</div></div>
+          <div class="stat"><div class="n">90%+</div><div class="l">test coverage maintained</div></div>
+          <div class="stat"><div class="n">20–30%</div><div class="l">backend perf. improvement</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="route"><span class="method get">GET</span> /experience</span>
+        <h2>Experience</h2>
+      </div>
+
+      <div class="role-card active" data-reveal>
+        <div class="role-top">
+          <div>
+            <h3>Packaged App Development Analyst</h3>
+            <div class="company">Accenture · Full-time · Hybrid</div>
+          </div>
+          <div class="role-dates">Nov 2025 — Present</div>
+        </div>
+        <ul>
+          <li>Took ownership of backend features end-to-end — from writing and reviewing Java/Spring Boot code to seeing them through production deployment.</li>
+          <li>Part of the Security &amp; Engineering Review process for production releases — independently handled security questionnaires, SAST and SCA scans, and DAPI testing to meet compliance gates.</li>
+          <li>Work within a team that follows TDD, so JUnit/Mockito test coverage is built into the development cycle, not added at the end.</li>
+        </ul>
+        <div class="role-tags"><span class="tag">PostgreSQL</span><span class="tag">TDD</span><span class="tag">SAST</span><span class="tag">SCA</span><span class="tag">DAPI</span></div>
+      </div>
+
+      <div class="role-card" data-reveal>
+        <div class="role-top">
+          <div>
+            <h3>Packaged App Development Associate</h3>
+            <div class="company">Accenture · Full-time</div>
+          </div>
+          <div class="role-dates">Sep 2023 — Nov 2025</div>
+        </div>
+        <ul>
+          <li>Designed and developed 6 microservices in Java/Spring Boot from the ground up, emphasizing modular architecture and reusable service components.</li>
+          <li>Optimized backend performance through query tuning and service-level improvements, reducing overall processing time by 20–30%.</li>
+          <li>Maintained 90%+ code coverage using JUnit and Mockito as part of a TDD workflow, directly helping reduce defects reaching production.</li>
+          <li>Owned triage and resolution of 4 production incidents — log analysis, root cause identification, and coordinated fixes.</li>
+          <li>Participated actively in CI/CD pipeline runs and code reviews, enforcing backend engineering standards across the team.</li>
+        </ul>
+        <div class="role-tags"><span class="tag">REST APIs</span><span class="tag">Java</span><span class="tag">CI/CD</span><span class="tag">Code Review</span></div>
+      </div>
+
+      <div class="role-card" data-reveal>
+        <div class="role-top">
+          <div>
+            <h3>Graduate Engineer Trainee (Internship)</h3>
+            <div class="company">LTIMindtree · Internship</div>
+          </div>
+          <div class="role-dates">Feb 2023 — Jun 2023</div>
+        </div>
+        <ul>
+          <li>Recognized as "Star Performer" for technical excellence and proactive support of team members.</li>
+          <li>Completed full-stack training in Java, SQL, and Python as part of an intensive engineering program.</li>
+          <li>Worked on a full-stack Java application during the program — got comfortable reading and contributing to production-grade code.</li>
+        </ul>
+        <div class="role-tags"><span class="tag">Java</span><span class="tag">SQL</span><span class="tag">Python</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="route"><span class="method get">GET</span> /projects</span>
+        <h2>Projects</h2>
+      </div>
+
+      <div class="project-grid" data-reveal>
+
+        <div class="project-card">
+          <div class="project-top">
+            <h3>SocialPulseAI</h3>
+            <a class="icon-link" href="https://github.com/googleBNB2025/socialPulse" target="_blank" rel="noopener" aria-label="View repository">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H8M17 7v9"/></svg>
+            </a>
+          </div>
+          <div class="project-date">Nov 2025 — Present</div>
+          <p class="desc">A cloud-native AI platform presented at Google BNB Marathon 2025. Handles video transcription, journaling, and creator analytics through a Pub/Sub event-driven backend.</p>
+          <div class="project-tags">
+            <span class="tag">FastAPI</span><span class="tag">Google Cloud Run</span><span class="tag">Pub/Sub</span><span class="tag">Firestore</span><span class="tag">Next.js</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/googleBNB2025/socialPulse" target="_blank" rel="noopener">→ repo</a>
+            <a href="https://medium.com/@kalepallidevika/building-socialpulse-ai-an-intelligent-trend-content-strategy-agent-using-vertex-ai-c2f380eada22" target="_blank" rel="noopener">→ blog post</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <h3>Student Management Microservice</h3>
+            <a class="icon-link" href="https://github.com/kalepallidevika/student-management-svc" target="_blank" rel="noopener" aria-label="View repository">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M17 7H8M17 7v9"/></svg>
+            </a>
+          </div>
+          <div class="project-date">Nov 2025</div>
+          <p class="desc">A Spring Boot microservice built with layered architecture, DTO mappings, and structured exception handling. CRUD REST APIs, Swagger docs, and JPA/Hibernate over MySQL.</p>
+          <div class="project-tags">
+            <span class="tag">Spring Boot</span><span class="tag">MySQL</span><span class="tag">JPA</span><span class="tag">Swagger</span><span class="tag">Maven</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/kalepallidevika/student-management-svc" target="_blank" rel="noopener">→ repo</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <h3>ML-based IDS Analysis (WSN)</h3>
+          </div>
+          <div class="project-date">Feb 2023 — Apr 2023</div>
+          <p class="desc">A machine learning–based intrusion detection system for wireless sensor networks. Designed and trained models for attack classification, improving detection reliability and reducing false positives. Published at IEEE ICACCS 2023.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span><span class="tag">Machine Learning</span><span class="tag">Feature Engineering</span>
+          </div>
+          <div class="project-links">
+            <a href="https://ieeexplore.ieee.org/document/10112982" target="_blank" rel="noopener">→ IEEE paper</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <h3>Hybrid Meta-Heuristic Algorithm (WSN Localization)</h3>
+          </div>
+          <div class="project-date">Jan 2023 — Mar 2023</div>
+          <p class="desc">A custom hybrid Grey Wolf – BAT optimization algorithm for wireless sensor network localization, cutting localization time by roughly 40%. Owned end-to-end design, coding, and testing.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span><span class="tag">Optimization</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="route"><span class="method get">GET</span> /skills</span>
+        <h2>Skills</h2>
+      </div>
+      <div class="skill-groups" data-reveal>
+        <div class="skill-group">
+          <div class="label">// languages &amp; core</div>
+          <div class="skill-tags">
+            <span class="chip">Java</span><span class="chip">Python</span><span class="chip">OOP</span><span class="chip">Data Structures &amp; Algorithms</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="label">// frameworks &amp; apis</div>
+          <div class="skill-tags">
+            <span class="chip">Spring Boot</span><span class="chip">REST APIs</span><span class="chip">Microservices</span><span class="chip">Software Design Patterns</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="label">// data &amp; infra</div>
+          <div class="skill-tags">
+            <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Firestore</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="label">// practices &amp; security</div>
+          <div class="skill-tags">
+            <span class="chip">TDD</span><span class="chip">SAST</span><span class="chip">SCA</span><span class="chip">Spring Security</span><span class="chip">CI/CD</span><span class="chip">Git</span><span class="chip">Agile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="route"><span class="method get">GET</span> /education</span>
+        <h2>Education &amp; Certifications</h2>
+      </div>
+      <div data-reveal>
+        <div class="edu-row">
+          <div>
+            <h3>Madanapalle Institute of Technology &amp; Science</h3>
+            <div class="sub">B.Tech, Computer Science and Technology · 9.19 CGPA</div>
+          </div>
+          <div class="right">2019 — 2023</div>
+        </div>
+        <div class="edu-row">
+          <div>
+            <h3>Narayana Institute</h3>
+            <div class="sub">Intermediate, MPC · 9.36 CGPA</div>
+          </div>
+          <div class="right">2017 — 2019</div>
+        </div>
+
+        <ul class="cert-list">
+          <li><b>Management Information System</b><span>NPTEL · Oct 2022</span></li>
+          <li><b>Python Essentials 1</b><span>Cisco Networking Academy · Mar 2023</span></li>
+          <li><b>Software Engineering Virtual Experience</b><span>JPMorganChase · Jul 2023</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap" data-reveal>
+      <p class="prompt">$ connect --with devika</p>
+      <h2>Let's build something reliable.</h2>
+      <p>Open to SDE and backend engineering roles — reach out on LinkedIn, or take a look at the code first.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://www.linkedin.com/in/kalepalli-devika" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+          Message on LinkedIn
+        </a>
+        <a class="btn btn-secondary" href="https://github.com/kalepallidevika" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-secondary" href="https://medium.com/@kalepallidevika" target="_blank" rel="noopener">Medium</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p id="footerLine">Kalepalli Devika · Bengaluru, India</p>
+</footer>
+
+<!--
+  VISITOR TRACKING (optional):
+  1. Sign up free at https://www.goatcounter.com and create a site — you'll pick a site code, e.g. "devika-portfolio".
+  2. Replace MYCODE below with your site code and uncomment the script tag.
+  3. View your visitor stats anytime by logging into your GoatCounter dashboard.
+
+  <script data-goatcounter="https://MYCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+
+<script>
+  // mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+
+  // authentic render-time readout
+  window.addEventListener('load', () => {
+    const t = Math.round(performance.now());
+    const el = document.getElementById('footerLine');
+    el.textContent = `Kalepalli Devika · Bengaluru, India · rendered in ${t}ms`;
+  });
+</script>
+
+</body>
+</html>
