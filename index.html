@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kalepalli Devika — Backend Engineer</title>
 <meta name="description" content="Kalepalli Devika — Backend Engineer specializing in Java, Spring Boot, microservices, REST APIs and scalable backend systems.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kalepalli Devika — Backend Engineer">
+<meta property="og:description" content="Java · Spring Boot · Microservices · PostgreSQL — backend systems built to scale, tested to last.">
+<meta property="og:url" content="https://kalepallidevika.github.io/portfolio/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,8 +21,12 @@
     --line:#E4E1D8;
     --accent:#2E4A42;       /* deep pine — primary interactive color */
     --accent-strong:#1E332D;
-    --gold:#C1863B;         /* single warm highlight, used sparingly */
+    --gold:#C1863B;         /* warm highlight — name accent, underline */
     --gold-soft:#F3E4CB;
+    --teal:#1F6F78;         /* standout blob / accent color */
+    --teal-soft:#D9EEEF;
+    --coral:#D9714F;        /* standout blob / accent color */
+    --coral-soft:#FBE3D7;
     --chip-bg:#F1EFE7;
     --chip-text:#3A3E36;
     --chip-border:#D8D4C6;
@@ -88,7 +96,14 @@
   }
 
   /* ---------- HERO ---------- */
-  header.hero{ padding:72px 0 56px; }
+  header.hero{ padding:72px 0 56px; position:relative; overflow:hidden; }
+  .hero-blob{
+    position:absolute; border-radius:50%; filter:blur(56px); z-index:0; pointer-events:none;
+    opacity:0.75;
+  }
+  .hero-blob.b1{ width:420px; height:420px; background:radial-gradient(circle, rgba(31,111,120,0.55), transparent 72%); top:-160px; right:-120px; }
+  .hero-blob.b2{ width:340px; height:340px; background:radial-gradient(circle, rgba(217,113,79,0.55), transparent 72%); bottom:-140px; left:-100px; }
+  .hero-grid{ position:relative; z-index:1; }
   .hero-grid{
     display:flex; gap:40px; align-items:center; flex-wrap:wrap-reverse;
   }
@@ -100,7 +115,13 @@
   .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:#3E9C6B; box-shadow:0 0 0 3px rgba(62,156,107,0.18); }
 
   h1.name{ font-size:clamp(2.3rem, 5vw, 3.1rem); line-height:1.08; margin-bottom:14px; }
-  h1.name .accent-word{ color:var(--gold); }
+  h1.name .accent-word{ color:var(--gold); position:relative; }
+  h1.name .accent-word::after{
+    content:''; position:absolute; left:0; bottom:2px; height:0.32em; width:100%;
+    background:var(--gold-soft); z-index:-1; border-radius:3px;
+    transform-origin:left; animation:underlineGrow 1s .6s cubic-bezier(.65,0,.35,1) both;
+  }
+  @keyframes underlineGrow{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
 
   .role-line{ font-size:1.08rem; color:var(--ink-soft); margin-bottom:20px; }
   .role-line strong{ color:var(--ink); font-weight:600; }
@@ -123,6 +144,11 @@
     display:flex; gap:22px; flex-wrap:wrap; font-size:0.86rem; color:var(--ink-soft);
   }
   .hero-meta b{ color:var(--ink); font-weight:600; }
+
+  .stat-row{ display:flex; gap:28px; flex-wrap:wrap; margin-top:30px; padding-top:26px; border-top:1px solid var(--line); }
+  .stat{ display:flex; flex-direction:column; }
+  .stat-num{ font-family:'Fraunces',serif; font-size:1.7rem; font-weight:600; color:var(--accent-strong); line-height:1.1; }
+  .stat-label{ font-size:0.78rem; color:var(--ink-soft); margin-top:2px; }
 
   .hero-photo{
     flex:0 0 180px; width:180px; height:180px; border-radius:50%;
@@ -193,8 +219,11 @@
   .project-card{
     background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
     padding:20px; display:flex; flex-direction:column; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    border-top:4px solid var(--teal); position:relative; overflow:hidden;
   }
-  .project-card:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(193,134,59,0.16); border-color:var(--gold); }
+  .project-card:nth-of-type(2n){ border-top-color:var(--coral); }
+  .project-card:hover{ transform:translateY(-4px); box-shadow:0 14px 28px rgba(31,111,120,0.14); border-color:var(--line); border-top-color:var(--teal); }
+  .project-card:nth-of-type(2n):hover{ border-top-color:var(--coral); box-shadow:0 14px 28px rgba(217,113,79,0.16); }
   .project-tag{ font-size:0.72rem; font-weight:700; letter-spacing:0.04em; color:var(--gold); margin-bottom:8px; }
   .project-card h3{ font-size:1.08rem; margin-bottom:2px; }
   .project-date{ font-size:0.8rem; color:var(--ink-soft); margin-bottom:10px; }
@@ -204,11 +233,31 @@
   .project-links a:hover{ border-color:var(--accent); color:var(--accent-strong); }
 
   /* ---------- SKILLS ---------- */
-  .skills-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-  @media (max-width:640px){ .skills-grid{ grid-template-columns:1fr; } }
-  .skill-group h3{ font-size:0.92rem; font-weight:600; margin-bottom:12px; color:var(--ink); }
-  .skill-group .chip-row .chip{ background:var(--surface); border-color:var(--chip-border); color:var(--chip-text); font-weight:600; }
-  .skill-group .chip-row .chip:hover{ background:var(--gold-soft); border-color:var(--gold); color:var(--accent-strong); }
+  .skills-list{ display:flex; flex-direction:column; }
+  .skill-row{
+    padding:24px 0;
+  }
+  .skill-row:first-child{ padding-top:0; }
+  .skill-row + .skill-row{ border-top:1px dashed var(--line); }
+  .skill-row h3{
+    font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--group-color, var(--accent)); margin:0 0 14px;
+  }
+  .skill-row:nth-of-type(1){ --group-color:var(--gold); }
+  .skill-row:nth-of-type(2){ --group-color:var(--teal); }
+  .skill-row:nth-of-type(3){ --group-color:var(--coral); }
+  .skill-row:nth-of-type(4){ --group-color:var(--accent); }
+  .skill-items{ display:flex; flex-wrap:wrap; gap:10px 14px; }
+  .skill-item{
+    font-size:0.95rem; font-weight:600; color:var(--ink); cursor:default;
+    padding:2px 0; position:relative;
+  }
+  .skill-item::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:0; height:2px;
+    background:var(--group-color, var(--accent)); transition:width .22s ease;
+  }
+  .skill-item:hover{ color:var(--group-color, var(--accent)); }
+  .skill-item:hover::after{ width:100%; }
 
   /* ---------- EDUCATION ---------- */
   .edu-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:30px; }
@@ -248,6 +297,13 @@
     .hero-grid{ flex-direction:column; align-items:flex-start; }
     .hero-photo{ margin:0 0 8px; }
   }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
 </style>
 </head>
 <body>
@@ -285,7 +341,14 @@
         <span><b>Experience</b> — 3 yrs @ Accenture</span>
         <span><b>Focus</b> — Backend Engineering</span>
       </div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">Microservices shipped</span></div>
+        <div class="stat"><span class="stat-num">90%+</span><span class="stat-label">Test coverage</span></div>
+        <div class="stat"><span class="stat-num">20–30%</span><span class="stat-label">Faster processing</span></div>
+      </div>
     </div>
+    <div class="hero-blob b1"></div>
+    <div class="hero-blob b2"></div>
     <div class="hero-photo">
       <img src="assets/devika.jpg" alt="Kalepalli Devika — Backend Engineer">
     </div>
@@ -304,15 +367,15 @@
       <p>Outside client work, I build things I'm curious about — including an AI video-intelligence platform presented at Google's BNB Marathon 2025, and research on ML-based intrusion detection for wireless sensor networks.</p>
     </div>
     <div class="value-grid">
-      <div class="value-card">
+      <div class="value-card reveal">
         <h3>Backend-first thinking</h3>
         <p>APIs, service design, data access and scalable architecture.</p>
       </div>
-      <div class="value-card">
+      <div class="value-card reveal">
         <h3>Production mindset</h3>
         <p>Performance, security, logging, debugging and reliability.</p>
       </div>
-      <div class="value-card">
+      <div class="value-card reveal">
         <h3>Quality by design</h3>
         <p>TDD, JUnit, Mockito, reviews and maintainable code.</p>
       </div>
@@ -329,7 +392,7 @@
     </div>
 
     <div class="timeline">
-      <div class="job current">
+      <div class="job current reveal">
         <span class="job-dot"></span>
         <div class="job-head">
           <span class="job-title">Packaged App Development Analyst</span>
@@ -347,7 +410,7 @@
         </div>
       </div>
 
-      <div class="job">
+      <div class="job reveal">
         <span class="job-dot"></span>
         <div class="job-head">
           <span class="job-title">Packaged App Development Associate</span>
@@ -367,7 +430,7 @@
         </div>
       </div>
 
-      <div class="job">
+      <div class="job reveal">
         <span class="job-dot"></span>
         <div class="job-head">
           <span class="job-title">Graduate Engineer Trainee</span>
@@ -395,7 +458,7 @@
       <p class="section-intro">Engineering across backend systems, cloud architecture, AI platforms and applied research.</p>
     </div>
     <div class="project-grid">
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-tag">FEATURED</div>
         <h3>SocialPulseAI</h3>
         <div class="project-date">Nov 2025 — Dec 2025</div>
@@ -410,7 +473,7 @@
         </div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-tag">SERVICE</div>
         <h3>Student Management Microservice</h3>
         <div class="project-date">Nov 2025</div>
@@ -424,7 +487,7 @@
         </div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-tag">RESEARCH</div>
         <h3>ML-based IDS Analysis</h3>
         <div class="project-date">Feb 2023 — Apr 2023</div>
@@ -437,7 +500,7 @@
         </div>
       </div>
 
-      <div class="project-card">
+      <div class="project-card reveal">
         <div class="project-tag">RESEARCH</div>
         <h3>Hybrid Meta-Heuristic Algorithm</h3>
         <div class="project-date">Jan 2023 — Mar 2023</div>
@@ -456,34 +519,29 @@
       <div class="section-label">Technical Skills</div>
       <h2>Tools I reach for</h2>
     </div>
-    <div class="skills-grid">
-      <div class="skill-group">
+    <div class="skills-list">
+      <div class="skill-row reveal">
         <h3>Languages &amp; Core</h3>
-        <div class="chip-row">
-          <span class="chip">Java</span><span class="chip">Python</span><span class="chip">OOPs</span>
-          <span class="chip">Data Structures</span><span class="chip">Algorithms</span>
+        <div class="skill-items">
+          <span class="skill-item">Java</span><span class="sep">·</span><span class="skill-item">Python</span><span class="sep">·</span><span class="skill-item">OOPs</span><span class="sep">·</span><span class="skill-item">Data Structures</span><span class="sep">·</span><span class="skill-item">Algorithms</span>
         </div>
       </div>
-      <div class="skill-group">
+      <div class="skill-row reveal">
         <h3>Backend &amp; APIs</h3>
-        <div class="chip-row">
-          <span class="chip">Spring Boot</span><span class="chip">REST APIs</span><span class="chip">Microservices</span>
-          <span class="chip">Design Patterns</span><span class="chip">Spring Security</span>
+        <div class="skill-items">
+          <span class="skill-item">Spring Boot</span><span class="sep">·</span><span class="skill-item">REST APIs</span><span class="sep">·</span><span class="skill-item">Microservices</span><span class="sep">·</span><span class="skill-item">Design Patterns</span><span class="sep">·</span><span class="skill-item">Spring Security</span>
         </div>
       </div>
-      <div class="skill-group">
+      <div class="skill-row reveal">
         <h3>Data &amp; Infrastructure</h3>
-        <div class="chip-row">
-          <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">Docker</span>
-          <span class="chip">Kubernetes</span><span class="chip">Firestore</span>
+        <div class="skill-items">
+          <span class="skill-item">PostgreSQL</span><span class="sep">·</span><span class="skill-item">MySQL</span><span class="sep">·</span><span class="skill-item">Docker</span><span class="sep">·</span><span class="skill-item">Kubernetes</span><span class="sep">·</span><span class="skill-item">Firestore</span>
         </div>
       </div>
-      <div class="skill-group">
+      <div class="skill-row reveal">
         <h3>Engineering &amp; Security</h3>
-        <div class="chip-row">
-          <span class="chip">TDD</span><span class="chip">JUnit</span><span class="chip">Mockito</span>
-          <span class="chip">SAST</span><span class="chip">SCA</span><span class="chip">DAPI</span>
-          <span class="chip">CI/CD</span><span class="chip">Git</span><span class="chip">Agile</span>
+        <div class="skill-items">
+          <span class="skill-item">TDD</span><span class="sep">·</span><span class="skill-item">JUnit</span><span class="sep">·</span><span class="skill-item">Mockito</span><span class="sep">·</span><span class="skill-item">SAST</span><span class="sep">·</span><span class="skill-item">SCA</span><span class="sep">·</span><span class="skill-item">DAPI</span><span class="sep">·</span><span class="skill-item">CI/CD</span><span class="sep">·</span><span class="skill-item">Git</span><span class="sep">·</span><span class="skill-item">Agile</span>
         </div>
       </div>
     </div>
@@ -497,12 +555,12 @@
       <h2>Background</h2>
     </div>
     <div class="edu-grid">
-      <div class="edu-card">
+      <div class="edu-card reveal">
         <h3>Madanapalle Institute of Technology &amp; Science</h3>
         <div class="edu-meta">B.Tech, Computer Science and Technology · 9.19 CGPA</div>
         <div class="edu-years">2019 — 2023</div>
       </div>
-      <div class="edu-card">
+      <div class="edu-card reveal">
         <h3>Narayana Institute</h3>
         <div class="edu-meta">Intermediate, MPC · 9.36 CGPA</div>
         <div class="edu-years">2017 — 2019</div>
@@ -541,6 +599,31 @@
   document.querySelectorAll('.nav-links a').forEach(function(a){
     a.addEventListener('click', function(){
       document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
+  // Fade-up reveal animation as sections/cards scroll into view
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.15, rootMargin:'0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  // Stagger reveal timing slightly within each grid/timeline for a nicer cascade
+  ['.value-grid', '.timeline', '.project-grid', '.skills-list', '.edu-grid'].forEach(function(sel){
+    var container = document.querySelector(sel);
+    if(!container) return;
+    Array.from(container.children).forEach(function(child, i){
+      child.style.transitionDelay = (i * 70) + 'ms';
     });
   });
 </script>
